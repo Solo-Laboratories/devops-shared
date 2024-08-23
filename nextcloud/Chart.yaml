@@ -1,0 +1,15 @@
+name: nextcloud-with-traefik
+version: v2.13.1
+appVersion: v2.13.1
+description: Nextcloud umbrella chart that houses an IngressRoute for clusters using Traefik
+home: https://github.com/solo-laboratories/devops-helm
+sources:
+- https://github.com/nextcloud/helm
+dependencies:
+- name: nextcloud
+  version: 5.2.3
+  repository: https://nextcloud.github.io/helm/
+maintainers:
+- name: Mark Brown
+  email: markus@sololab.one
+  url: https://github.com/markbrown87

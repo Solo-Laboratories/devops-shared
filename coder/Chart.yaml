@@ -1,0 +1,15 @@
+name: coder-with-traefik
+version: v1.0.0
+appVersion: v2.13.4
+description: Coder v2 umbrella chart that houses an IngressRoute for clusters using Traefik
+home: https://github.com/solo-laboratories/devops-helm
+sources:
+- https://github.com/coder/coder/tree/main/helm/coder
+dependencies:
+- name: coder
+  version: v2.13.4
+  repository: https://helm.coder.com/v2
+maintainers:
+- name: Mark Brown
+  email: markus@sololab.one
+  url: https://github.com/markbrown87

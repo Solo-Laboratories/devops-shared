@@ -1,0 +1,16 @@
+{{- range .Values.jobs }}
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ .name }}
+  namespace: {{ .namespace }}
+spec:
+  schedule: {{ .schedule }}
+  timeZone: {{ .timezone }}
+  jobTemplate:
+    spec:
+      template:
+        spec:
+{{ .spec | toYaml | indent 10 }}
+---
+{{- end }}

@@ -1,0 +1,15 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: home-assistant-ingressroute
+  namespace: {{ .Release.Namespace }}
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`{{ .Values.ingressRoute.url }}`)
+      kind: Rule
+      services:
+      - kind: Service
+        name: {{ .Values.ingressRoute.service.name }}
+        port: {{ .Values.ingressRoute.service.port }}

@@ -1,0 +1,51 @@
+# Not very customizable currently
+ingressRoute:
+  url: nextcloud.example.com
+  service:
+    name: nextcloud
+    port: 8080
+
+# Nextcloud Configurations
+nextcloud:
+  nextcloud:
+    host: nextcloud.example.com
+
+    strategy:
+      type: RollingUpdate
+
+    extraEnv:
+    - name: OVERWRITECLIURL
+      value: https://nextcloud.example.com
+    - name: OVERWRITEPROTOCOL
+      value: https
+  
+  persistence:
+    enabled: true
+    accessMode: ReadWriteMany
+    #size: 500Gi
+  
+  livenessProbe:
+    enabled: false
+  readinessProbe:
+    enabled: false
+
+  internalDatabase:
+    enabled: false
+
+  externalDatabase:
+    enabled: true
+    type: postgresql
+    host: nextcloud-postgresql.nextcloud.svc.cluster.local:5432
+    user: nextcloud
+    password: nextcloud
+    database: nextcloud
+
+  postgresql:
+    enabled: true
+    global:
+      postgresql:
+        auth:
+          password: nextcloud
+    primary:
+      persistence:
+        enabled: true

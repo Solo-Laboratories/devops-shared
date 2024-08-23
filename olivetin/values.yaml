@@ -1,0 +1,11 @@
+# Not very customizable currently
+ingressRoute:
+  url: olivetin.example.com
+  service:
+    name: olivetin
+    port: 1337
+
+# Olivetin configuration
+olivetin:
+  image: docker.io/jamesread/olivetin
+  tag: 2024.07.153

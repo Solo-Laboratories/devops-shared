@@ -1,0 +1,12 @@
+# Not very customizable currently
+ingressRoute:
+  url: guacamole.example.com
+  service:
+    name: guacamole-guacamole
+    port: 80
+
+# Guacamole Configuration
+guacamole:
+  postgres:
+    hostname: "guacamole-db-postgresql.postgres.svc.cluster.local"
+    password: "guacamole"

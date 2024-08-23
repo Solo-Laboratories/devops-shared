@@ -1,0 +1,17 @@
+name: olivetin-with-traefik
+version: v1.0.0
+appVersion: 2024.07.153
+description: Olivetin umbrella chart that houses an IngressRoute for clusters using Traefik
+home: https://github.com/solo-laboratories/devops-helm
+sources:
+- https://github.com/solo-laboratories/devops-helm
+- https://github.com/OliveTin
+# This will be updated once the chart has matured more; Copying files from source (olivetin URL above) and making modifications that fit my need
+# dependencies: 
+# - name: olivetin
+#   version: 0.3.0
+#   repository: https://olivetin.github.io/OliveTin-HelmChart/
+maintainers:
+- name: Mark Brown
+  email: markus@sololab.one
+  url: https://github.com/markbrown87

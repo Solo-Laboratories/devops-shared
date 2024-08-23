@@ -1,0 +1,10 @@
+name: external-redirects
+version: v1.0.0
+description: Collection of External Redirects allow Traefik to provide TLS for external endpoints without placing it in traefik configuration file
+home: https://github.com/solo-laboratories/devops-helm
+sources:
+- https://github.com/solo-laboratories/devops-helm
+maintainers:
+- name: Mark Brown
+  email: markus@sololab.one
+  url: https://github.com/markbrown87

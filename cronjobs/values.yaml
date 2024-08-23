@@ -1,0 +1,26 @@
+jobs:
+## Just comment out what jobs you don't want to be deployed.
+- name: nextcloud-maintenance-mode-on
+  namespace: cron-jobs
+  timezone: "America/New_York"
+  schedule: "0 2 * * *"
+  spec:
+    serviceAccountName: cron-runner
+    restartPolicy: Never
+    containers:
+    - name: kubectl-container
+      image: bitnami/kubectl
+      command: ["/bin/bash"]
+      args: ["-c", "kubectl exec deployment/nextcloud -n nextcloud -- su -s /bin/bash www-data -c 'php occ maintenance:mode --on'"]
+- name: nextcloud-maintenance-mode-off
+  namespace: cron-jobs
+  timezone: "America/New_York"
+  schedule: "0 6 * * *"
+  spec:
+    serviceAccountName: cron-runner
+    restartPolicy: Never
+    containers:
+    - name: kubectl-container
+      image: bitnami/kubectl
+      command: ["/bin/bash"]
+      args: ["-c", "kubectl exec deployment/nextcloud -n nextcloud -- su -s /bin/bash www-data -c 'php occ maintenance:mode --off'"]

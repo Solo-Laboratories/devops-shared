@@ -1,0 +1,16 @@
+{{- range .Values.endpoints }}
+{{- $url := .url }}
+{{- range .middlewares }}
+{{- if eq .name "pihole-regex" }}
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: pihole-regex
+  namespace: {{ $.Release.Namespace }}
+spec:
+  redirectRegex:
+    regex: "^https?://{{ $url }}/$" 
+    replacement: "https://{{ $url }}/admin/"
+{{- end }}
+{{- end }}
+{{- end }}

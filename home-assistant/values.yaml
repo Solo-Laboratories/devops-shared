@@ -1,0 +1,41 @@
+# Not very customizable currently
+ingressRoute:
+  url: home-assistant.example.com
+  service:
+    name: home-assistant
+    port: 8080
+
+home-assistant:
+  env:
+    - name: TZ
+      value: "America/New_York"
+
+  persistence:
+    enabled: true
+
+  # Keeping this here but refer to https://github.com/pajikos/home-assistant-helm-chart/issues/30 as trust_proxies does not function as intended currently
+  configuration:
+    # Uncomment below once issue above is fixed
+    # enabled: true
+    # forceInit: false
+    trusted_proxies:
+      - 10.42.0.0/16
+    templateConfig: |-
+      # Loads default set of integrations. Do not remove.
+      default_config:
+
+      {{- if .Values.ingress.enabled }}
+      http:
+        use_x_forwarded_for: true
+        trusted_proxies:
+          {{- range .Values.configuration.trusted_proxies }}
+          - {{ . }}
+          {{- end }}
+      {{- end}}
+      # Load frontend themes from the themes folder
+      frontend:
+        themes: !include_dir_merge_named themes
+
+      automation: !include automations.yaml
+      script: !include scripts.yaml
+      scene: !include scenes.yaml

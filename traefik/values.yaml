@@ -1,0 +1,51 @@
+# Only setup to work with Cloudflare currently
+provider:
+  selection: cloudflare
+  apiKey: fg224....
+  email: first.last@me.com
+  domain: example.com
+  resolvers: 1.1.1.1:53,1.0.0.1:53
+
+# Configuration for Traefik external routing
+config:
+  # Enable to generate a configmap that Traefik will use
+  #   This configmap is used to route external endpoints outside of the cluster
+  enable: false
+
+  # Routers reference Services and Middlewares
+  routers:
+  - pihole:
+      entryPoints:
+        - "websecure"
+      rule: "Host(`pihole.example.com`)"
+      middlewares:
+        - pihole-redirect
+      tls: {}
+      service: pihole
+  #routers: []
+  # Services point to endpoints
+  services: 
+  - pihole:
+      loadBalancer:
+        servers:
+          - url: "http://<ip-address>:<port>"
+        passHostHeader: true
+  #services: []
+  
+  # Custom Middlewares
+  middlewares:
+  - pihole-redirect:
+      redirectRegex:
+        regex: "^https?://pihole.example.com/$"
+        replacement: "https://pihole.example.com/admin/"
+  #middlewares: []
+
+# PVC used by Traefik to store the ACME.json file
+persistance:
+  enabled: true
+  size: 128Mi
+
+# Ingress Route to expose Traefik Dashboard
+ingressRoute:
+  enabled: true
+  url: traefik.example.com

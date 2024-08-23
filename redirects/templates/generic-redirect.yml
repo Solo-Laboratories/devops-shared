@@ -1,0 +1,49 @@
+{{- range .Values.endpoints }}
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: {{ .name }}
+  namespace: {{ $.Release.Namespace }}
+subsets:
+- addresses:
+  - ip: {{ .endpoint }}
+  ports:
+  {{- range .ports }}
+  - name: {{ .name }}
+    port: {{ .port }}
+  {{- end }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .name }}
+  namespace: {{ $.Release.Namespace }}
+spec:
+  ports:
+  {{- range .ports }}
+  - name: {{ .name }}
+    port: {{ .port }}
+  {{- end }}
+    protocol: TCP
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: {{ .name }}
+  namespace: {{ $.Release.Namespace }}
+spec:
+  entryPoints:
+  - websecure
+  routes:
+  - match: Host(`{{ .url }}`)
+    kind: Rule
+    {{- range .middlewares }}
+    middlewares:
+    - name: {{ .name }}
+      namespace: {{ $.Release.Namespace }}
+    {{- end }}
+    services:
+    - kind: Service
+      name: pihole-redirect
+      port: 80
+{{- end }}

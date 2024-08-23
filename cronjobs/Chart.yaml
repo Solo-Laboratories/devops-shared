@@ -1,0 +1,10 @@
+name: cronjob-collection
+version: v1.0.0
+description: Collection of Cronjobs with specific examples
+home: https://github.com/solo-laboratories/devops-helm
+sources:
+- https://github.com/solo-laboratories/devops-helm
+maintainers:
+- name: Mark Brown
+  email: markus@sololab.one
+  url: https://github.com/markbrown87
