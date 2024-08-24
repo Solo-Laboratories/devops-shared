@@ -16,7 +16,7 @@ helm upgrade --install guacamole-db bitnami/postgresql \
     --version v15.5.17 \
     --atomic
 ```
-2. Install Coder Umbrella Chart. Take note of the postgres information you changed above and apply them to [the values file](coder/values.yaml).
+2. Install Umbrella Chart. Take note of the postgres information you changed above and apply them to [the values file](coder/values.yaml).
 ```bash
 helm repo add solo-laboratories https://solo-laboratories.github.io/helm-charts && \
 helm upgrade --install guacamole solo-laboratories/guacamole-with-traefik \

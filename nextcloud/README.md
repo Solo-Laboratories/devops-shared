@@ -2,32 +2,18 @@
 Houses the umbrella chart that includes an IngressRoute for clusters using Traefik. 
 
 ## Installation
-
-1. Install postgres bitnami chart first.
+1. Install Umbrella Chart. Take note of the postgres information you changed above and apply them to [the values file](coder/values.yaml).
 ```bash
-helm repo add bitnami https://charts.bitnami.com/bitnami && \
-helm repo update && \
-helm upgrade --install nextcloud-db bitnami/postgresql \
-    --namespace postgres \
+helm repo add solo-laboratories https://solo-laboratories.github.io/helm-charts && \
+helm upgrade --install nextcloud solo-laboratories/nextcloud-with-traefik \
+    --namespace nextcloud \
     --create-namespace \
-    --set auth.username=nextcloud \
-    --set auth.password=nextcloud \
-    --set auth.database=nextcloud \
-    --set persistence.size=100Gi \
-    --version v15.5.17 \
+    --version v2.0.0 \
     --atomic
 ```
 
-2. Install Coder Umbrella Chart. Take note of the postgres information you changed above and apply them below either during install (similar to below) or by modiying [the values file](coder/values.yaml).
-```bash
-helm dependency build && \
-helm upgrade --install coder . \
-    --namespace coder \
-    --create-namespace \
-    --set ingressRoute.url=coder.example.com \
-    --set database.url=coder-db-postgresql.postgres.svc.cluster.local:5432 \
-    --atomic
-```
+## Note
+This chart does not use an external postgres in the sense that the postgres is located outside of the nextcloud namespace. It is, however, configured to stand up an external postgres database inside the nextcloud namespace.
 
 ## Troubleshooting
 * There might be an issue with installing and the default livenessprobe and readinessprobe. Disable them by `--set nextcloud.livenessProbe.enabled=false --set nextcloud.readinessProbe.enabled=false` on the first install with persistent data. This gives it more than enough time to install and setup.

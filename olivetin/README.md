@@ -2,11 +2,12 @@
 House the copied files from [Olivetin's helm chart repository](https://github.com/OliveTin/OliveTin-HelmChart/tree/main) to make modification changes to the helm chart.
 
 ## Installation
-1. Install Olivetin. Folow the instructions below (assuming the command is ran at {git_repo_root}/olivetin).
+1. Install Umbrella Chart. Take note of the postgres information you changed above and apply them to [the values file](coder/values.yaml).
 ```bash
-helm upgrade --install olivetin . \
-    --namespace olivetin-ns \
+helm repo add solo-laboratories https://solo-laboratories.github.io/helm-charts && \
+helm upgrade --install olivetin solo-laboratories/olivetin-with-traefik \
+    --namespace olivetin \
     --create-namespace \
-    --set ingressRoute.url=olivetin.example.com \
+    --version v2.0.0 \
     --atomic
 ```

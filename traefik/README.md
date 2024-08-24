@@ -24,7 +24,11 @@ After modifying the [values.yaml](values.yaml) file with personalized changes, d
 
 (Step 2)
 ```bash
-helm update --install traefik-custom . -n kube-system --atomic
+helm repo add solo-laboratories https://solo-laboratories.github.io/helm-charts && \
+helm upgrade --install traefik-custom solo-laboratories/traefik-custom \
+    --namespace kube-system \
+    --version v1.0.0 \
+    --atomic
 ```
 
 ## Persistance

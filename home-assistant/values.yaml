@@ -1,9 +1,10 @@
 # Not very customizable currently
-ingressRoute:
-  url: home-assistant.example.com
-  service:
-    name: home-assistant
-    port: 8080
+ingressroute:
+  routes:
+  - url: home-assistant.example.com
+    service:
+      name: home-assistant
+      port: 8080
 
 home-assistant:
   env:
