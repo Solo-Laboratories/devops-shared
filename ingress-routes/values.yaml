@@ -1,0 +1,30 @@
+middlewareNamespace: middleware
+routesNamespace: routes
+
+# Collection of routes
+routes:
+- url: nextcloud.example.com
+  # WIP; override namespace
+  # namespaceOverride: example-ns
+  service:
+    name: nextcloud.nextcloud.svc.cluster.local
+    port: 8080
+- url: middleware.example.com
+  # This needs to reference a middleware below
+  middleware:
+  - name: example-name
+    # WIP; override namespace
+    # namespace: middleware
+  service:
+    name: example.example-ns.svc.cluster.local
+    port: 8080
+
+# All the middleware objects that will be installed into the cluster
+middleware:
+- name: example-name
+  # WIP; override namespace
+  # namespaceOverride: example-ns
+  spec:
+    redirectRegex:
+      regex: "^https?://middleware.example.com/$" 
+      replacement: "https://middleware.example.com/admin/"

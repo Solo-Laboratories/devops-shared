@@ -1,0 +1,23 @@
+{{- range .Values.routes }}
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: {{ .name }}
+  namespace: {{ $.Values.routesNamespace }}
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`{{ .url }}`)
+      kind: Rule
+      {{- if .middleware }}
+      middlewares:
+{{ .middleware | toYaml | indent 6 }}
+        namespace: {{ $.Values.middlewareNamespace }}
+      {{- end }}
+      services:
+      - kind: Service
+        name: {{ .service.name }}
+        port: {{ .service.port }}
+---
+{{- end }}

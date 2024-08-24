@@ -18,3 +18,4 @@ Clone down this repository and refer to the chart's README.md for more informati
 * [Cronjob Collections](cronjobs/README.md)
 * [External Redirects](redirects/README.md)
 * [Apache Guacamole](guacamole/README.md)
+* [IngressRoute Collections](ingress-routes/README.md)
