@@ -1,9 +1,10 @@
 # Not very customizable currently
-ingressRoute:
-  url: coder.example.com
-  service:
-    name: coder
-    port: 80
+ingressroute:
+  routes:
+  - url: coder.example.com
+    service:
+      name: coder
+      port: 80
 
 # Custom Entries
 # Database configuration

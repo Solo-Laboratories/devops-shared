@@ -15,13 +15,12 @@ helm upgrade --install coder-db bitnami/postgresql \
     --version v15.5.17 \
     --atomic
 ```
-2. Install Coder Umbrella Chart. Take note of the postgres information you changed above and apply them below either during install (similar to below) or by modiying [the values file](coder/values.yaml).
+2. Install Coder Umbrella Chart. Take note of the postgres information you changed above and apply them to [the values file](coder/values.yaml).
 ```bash
-helm dependency build && \
-helm upgrade --install coder . \
+helm repo add solo-laboratories https://solo-laboratories.github.io/helm-charts && \
+helm upgrade --install coder solo-laboratories/coder-with-traefik \
     --namespace coder \
     --create-namespace \
-    --set ingressRoute.url=coder.example.com \
-    --set database.url=coder-db-postgresql.postgres.svc.cluster.local:5432 \
+    --version v2.0.0 \
     --atomic
 ```
