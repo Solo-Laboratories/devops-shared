@@ -3,13 +3,15 @@ routesNamespace: routes
 
 # Collection of routes
 routes:
-- url: nextcloud.example.com
+- name: nextcloud-ingress
+  url: nextcloud.example.com
   # WIP; override namespace
   # namespaceOverride: example-ns
   service:
     name: nextcloud.nextcloud.svc.cluster.local
     port: 8080
-- url: middleware.example.com
+- name: middleware-example
+  url: middleware.example.com
   # This needs to reference a middleware below
   middleware:
   - name: example-name
