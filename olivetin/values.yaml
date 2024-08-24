@@ -1,7 +1,9 @@
 # Not very customizable currently
 ingressroute:
   routes:
-  - url: olivetin.example.com
+  - name: olivetin-ingress
+    namespace: olivetin
+    url: olivetin.example.com
     service:
       name: olivetin
       port: 1337

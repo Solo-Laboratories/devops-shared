@@ -1,7 +1,9 @@
 # Not very customizable currently
 ingressroute:
   routes:
-  - url: coder.example.com
+  - name: coder-ingress
+    namespace: coder
+    url: coder.example.com
     service:
       name: coder
       port: 80

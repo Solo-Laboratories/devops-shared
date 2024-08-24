@@ -1,7 +1,9 @@
 # Not very customizable currently
 ingressroute:
   routes:
-  - url: guacamole.example.com
+  - name: guacamole-ingress
+    namespace: guacamolo
+    url: guacamole.example.com
     service:
       name: guacamole-guacamole
       port: 80

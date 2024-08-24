@@ -1,7 +1,9 @@
 # Not very customizable currently
 ingressroute:
   routes:
-  - url: nextcloud.example.com
+  - name: nextcloud-ingress
+    namespace: nextcloud
+    url: nextcloud.example.com
     service:
       name: nextcloud
       port: 8080
