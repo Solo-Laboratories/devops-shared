@@ -16,14 +16,14 @@ helm upgrade --install guacamole-db bitnami/postgresql \
     --version v15.5.17 \
     --atomic
 ```
-2. Install Guacamole Umbrella Chart. Take note of the postgres information you changed above and apply them below either during install (similar to below) or by modiying [the values file](values.yaml).
+2. Install Coder Umbrella Chart. Take note of the postgres information you changed above and apply them to [the values file](coder/values.yaml).
 ```bash
-helm dependency build && \
-helm upgrade --install guacamole . \
+helm repo add solo-laboratories https://solo-laboratories.github.io/helm-charts && \
+helm upgrade --install guacamole solo-laboratories/guacamole-with-traefik \
     --namespace guacamole \
     --create-namespace \
-    --set ingressRoute.url=guacamole.example.com \
+    --version v2.0.0 \
     --atomic
 ```
 
-_Note: The default user is 'guacadmin' and the password is 'guacadmin'
+*Note: The default user is 'guacadmin' and the password is 'guacadmin'*

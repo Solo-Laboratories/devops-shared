@@ -1,5 +1,5 @@
 name: guacamole-with-traefik
-version: v1.0.0
+version: v2.0.0
 appVersion: v1.5.5
 description: Apache Guacamole Umbrella chart that houses the IngressRoute for Traefik.
 home: https://github.com/solo-laboratories/devops-helm
@@ -9,6 +9,9 @@ dependencies:
 - name: guacamole
   version: v1.4.1
   repository: https://charts.beryju.io
+- name: ingressroutes
+  version: v1.0.0
+  repository: https://solo-laboratories.github.io/helm-charts
 maintainers:
 - name: Mark Brown
   email: markus@sololab.one
