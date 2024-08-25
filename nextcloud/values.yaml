@@ -1,54 +1,43 @@
-# Not very customizable currently
-ingressroute:
-  routes:
-  - name: nextcloud-ingress
-    namespace: nextcloud
-    url: nextcloud.example.com
-    service:
-      name: nextcloud
-      port: 8080
-
-# Nextcloud Configurations
+# Great reference for values: https://artifacthub.io/packages/helm/nextcloud/nextcloud?modal=values
 nextcloud:
-  nextcloud:
-    host: nextcloud.example.com
+  host: nextcloud.example.com
 
-    strategy:
-      type: RollingUpdate
+  strategy:
+    type: RollingUpdate
 
-    extraEnv:
-    - name: OVERWRITECLIURL
-      value: https://nextcloud.example.com
-    - name: OVERWRITEPROTOCOL
-      value: https
-  
-  persistence:
-    enabled: true
-    accessMode: ReadWriteMany
-    #size: 500Gi
-  
-  livenessProbe:
-    enabled: false
-  readinessProbe:
-    enabled: false
+  extraEnv:
+  - name: OVERWRITECLIURL
+    value: https://nextcloud.example.com
+  - name: OVERWRITEPROTOCOL
+    value: https
 
-  internalDatabase:
-    enabled: false
+persistence:
+  enabled: true
+  accessMode: ReadWriteMany
+  size: 100Gi # Or Whatever size space you want Nextcloud to have
 
-  externalDatabase:
-    enabled: true
-    type: postgresql
-    host: nextcloud-postgresql.nextcloud.svc.cluster.local:5432
-    user: nextcloud
-    password: nextcloud
-    database: nextcloud
+livenessProbe:
+  enabled: false
+readinessProbe:
+  enabled: false
 
-  postgresql:
-    enabled: true
-    global:
-      postgresql:
-        auth:
-          password: nextcloud
-    primary:
-      persistence:
-        enabled: true
+internalDatabase:
+  enabled: false
+
+externalDatabase:
+  enabled: true
+  type: postgresql
+  host: nextcloud-postgresql.nextcloud.svc.cluster.local:5432
+  user: nextcloud
+  password: nextcloud
+  database: nextcloud
+
+postgresql:
+  enabled: true
+  global:
+    postgresql:
+      auth:
+        password: nextcloud
+  primary:
+    persistence:
+      enabled: true
