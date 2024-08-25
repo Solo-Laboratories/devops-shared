@@ -20,6 +20,9 @@ helm repo add argo https://argoproj.github.io/argo-helm
 helm upgrade --install argo-cd argo/argo-cd -n argo-cd --create-namespace -f values.yaml --version=7.4.5 --atomic
 ```
 
+## Updating
+Replay the installation steps above.
+
 ## Uninstalling
 ### Helm
 1. Uninstall the chart using Helm.
