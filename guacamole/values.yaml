@@ -1,15 +1,4 @@
-# Not very customizable currently
-ingressroute:
-  routes:
-  - name: guacamole-ingress
-    namespace: guacamolo
-    url: guacamole.example.com
-    service:
-      name: guacamole-guacamole
-      port: 80
-
-# Guacamole Configuration
-guacamole:
-  postgres:
-    hostname: "guacamole-db-postgresql.postgres.svc.cluster.local"
-    password: "guacamole"
+# Great reference for values: https://artifacthub.io/packages/helm/beryju-org/guacamole?modal=values
+postgres:
+  hostname: "guacamole-db-postgresql.postgres.svc.cluster.local"
+  password: "guacamole"

@@ -1,0 +1,7 @@
+# Great reference for modifying values: https://artifacthub.io/packages/helm/bitnami/postgresql?modal=values
+auth:
+  username: guacamole
+  password: guacamole 
+  database: guacamole 
+persistence:
+  size: 4Gi

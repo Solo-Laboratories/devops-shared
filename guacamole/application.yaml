@@ -1,0 +1,27 @@
+# Great reference for modifying Application to your needs: https://argo-cd.readthedocs.io/en/stable/operator-manual/declarative-setup/
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: guacamole
+  namespace: argo-cd
+spec:
+  destination:
+    name: ''
+    namespace: guacamole
+    server: 'https://kubernetes.default.svc'
+  revisionHistoryLimit: 3
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+  sources:
+  - repoURL: https://charts.beryju.io
+    targetRevision: v1.4.1 # Change version here
+    chart: guacamole
+    helm:
+      valueFiles:
+      - $values/guacamole/values.yaml # Change where your values file is in remote repository. $values is at root.
+  - repoURL: 'https://github.com/some-user/private-values-repo' # Change this to point to where your values file is restored.
+    targetRevision: main
+    ref: values  
+  project: default
