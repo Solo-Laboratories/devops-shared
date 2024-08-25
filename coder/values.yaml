@@ -1,50 +1,26 @@
-# Not very customizable currently
-ingressroute:
-  routes:
-  - name: coder-ingress
-    namespace: coder
-    url: coder.example.com
-    service:
-      name: coder
-      port: 80
-
-# Custom Entries
-# Database configuration
-database:
-  url: coder-db-postgresql.postgres.svc.cluster.local:5432
-  secret:
-    # This must match what Coder is expecting below
-    name: coder-db-url
-    username: coder
-    password: coder
-    database: coder
-
 # Coder Helm Chart Configuration
 # More found here: https://artifacthub.io/packages/helm/coder-v2/coder?modal=values
 coder:
-  coder:
-    env:
-      # - name: CODER_OAUTH2_GITHUB_ALLOW_SIGNUPS
-      #   value: "true"
-      # - name: CODER_OAUTH2_GITHUB_CLIENT_ID
-      #   value: "Dgg23.....FGr"
-      # - name: CODER_OAUTH2_GITHUB_CLIENT_SECRET
-      #   value: "ac....0"
-      # # If setting allowed orgs, comment out CODER_OAUTH2_GITHUB_ALLOW_EVERYONE and its value
-      # - name: CODER_OAUTH2_GITHUB_ALLOWED_ORGS
-      #   value: "your-org"
-      # # If allowing everyone, comment out CODER_OAUTH2_GITHUB_ALLOWED_ORGS and it's value
-      # - name: CODER_OAUTH2_GITHUB_ALLOW_EVERYONE
-      #   value: "true"
-      - name: CODER_PG_CONNECTION_URL
-        valueFrom:
-          secretKeyRef:
-            # This must match the database.secret.name value above.
-            name: coder-db-url
-            key: url
+  env:
+    # Uncomment to include Github OAuth2 for signins
+    # - name: CODER_OAUTH2_GITHUB_ALLOW_SIGNUPS
+    #   value: "true"
+    # - name: CODER_OAUTH2_GITHUB_CLIENT_ID
+    #   value: "O....gngf"
+    # - name: CODER_OAUTH2_GITHUB_CLIENT_SECRET
+    #   value: "ac...0"
+    # # If setting allowed orgs, comment out CODER_OAUTH2_GITHUB_ALLOW_EVERYONE and its value
+    # # - name: CODER_OAUTH2_GITHUB_ALLOWED_ORGS
+    # #   value: "your-org"
+    # # If allowing everyone, comment out CODER_OAUTH2_GITHUB_ALLOWED_ORGS and it's value
+    # - name: CODER_OAUTH2_GITHUB_ALLOW_EVERYONE
+    #   value: "true"
+    - name: CODER_PG_CONNECTION_URL
+      # Note the user:password@database-endpoint/database --> if you change the values in db-value.yaml file, you need to reflect those here.
+      value: "postgres://coder:coder@coder-db-postgresql.postgres.svc.cluster.local:5432/coder?sslmode=disable"
 
-      - name: CODER_ACCESS_URL
-        value: "https://coder.example.com"
+    - name: CODER_ACCESS_URL
+      value: "https://coder.example.com"
 
-    service:
-      type: ClusterIP
+  service:
+    type: ClusterIP
