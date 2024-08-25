@@ -1,5 +1,5 @@
-# Home Assistant Chart with Traefik Ingress
-Hoe Assistant is an automation service for automating home related gudgets such as lights, doors, cameras, etc and more!
+# Home Assistant
+Home Assistant is an automation service for automating home related gudgets such as lights, doors, cameras, etc and more!
 
 ## Items
 * [values.yaml](values.yaml) file used for installing with Helm w/ default entries.
