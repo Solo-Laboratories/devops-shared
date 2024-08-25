@@ -1,0 +1,27 @@
+# Great reference for modifying Application to your needs: https://argo-cd.readthedocs.io/en/stable/operator-manual/declarative-setup/
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: home-assistant
+  namespace: home-assistant
+spec:
+  destination:
+    name: ''
+    namespace: gitea
+    server: 'https://kubernetes.default.svc'
+  revisionHistoryLimit: 3
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+  sources:
+  - repoURL: http://pajikos.github.io/home-assistant-helm-chart
+    targetRevision: 0.2.74 # Change version here
+    chart: home-assistant
+    helm:
+      valueFiles:
+      - $values/home-assistant/values.yaml # Change where your values file is in remote repository. $values is at root.
+  - repoURL: 'https://github.com/some-user/private-values-repo' # Change this to point to where your values file is restored.
+    targetRevision: main
+    ref: values  
+  project: default
