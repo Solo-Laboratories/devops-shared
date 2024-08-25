@@ -9,7 +9,9 @@ endpoints:
   port:
     name: http
     number: 80
-  url: pihole.example.com
-  # Will create the middleware from file in templates file
-  middlewares:
-  - name: pihole-regex
+  ingressRoute:
+    enabled: true
+    url: pihole.example.com
+    # Will create the middleware from file in templates file
+    middlewares:
+    - name: pihole-regex

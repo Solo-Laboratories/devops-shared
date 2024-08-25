@@ -22,7 +22,8 @@ spec:
     port: {{ .port.number }}
     protocol: TCP
 ---
-apiVersion: traefik.containo.us/v1alpha1
+{{- if .ingressRoute.enabled }}
+apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
   name: {{ .name }}
@@ -33,9 +34,9 @@ spec:
   - {{ . }}
   {{- end }}
   routes:
-  - match: Host(`{{ .url }}`)
+  - match: Host(`{{ .ingressRoute.url }}`)
     kind: Rule
-    {{- range .middlewares }}
+    {{- range .ingressRoute.middlewares }}
     middlewares:
     - name: {{ .name }}
       namespace: {{ $.Release.Namespace }}
@@ -45,4 +46,5 @@ spec:
     - kind: Service
       name: {{ .name }}
       port: {{ .port.number }}
+{{- end }}
 {{- end }}
