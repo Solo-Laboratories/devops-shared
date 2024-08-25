@@ -1,0 +1,27 @@
+# Great reference for modifying Application to your needs: https://argo-cd.readthedocs.io/en/stable/operator-manual/declarative-setup/
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cronjobs
+  namespace: argo-cd
+spec:
+  destination:
+    name: ''
+    namespace: cron-jobs
+    server: 'https://kubernetes.default.svc'
+  revisionHistoryLimit: 3
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+  sources:
+  - repoURL: 'https://solo-laboratories.github.io/helm-charts'
+    targetRevision: v1.0.0 # Change version here
+    chart: cronjob-collection
+    helm:
+      valueFiles:
+      - $values/coder/values.yaml # Change where your values file is in remote repository. $values is at root.
+  - repoURL: 'https://github.com/some-user/private-values-repo' # Change this to point to where your values file is restored.
+    targetRevision: main
+    ref: values 
+  project: default
