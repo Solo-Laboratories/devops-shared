@@ -1,12 +1,14 @@
 endpoints:
 # PiHole Example
 - name: pihole-redirect
+  entryPoints: 
+  - websecure
   # Only handles IP Addresses currently
   endpoint: 127.0.0.1
   # WIP; Currently only supports 1-to-1 port alignment but WIP on allowing for targetPort redirection at the service level
-  ports:
-  - name: http
-    port: 80
+  port:
+    name: http
+    number: 80
   url: pihole.example.com
   # Will create the middleware from file in templates file
   middlewares:

@@ -8,10 +8,8 @@ subsets:
 - addresses:
   - ip: {{ .endpoint }}
   ports:
-  {{- range .ports }}
-  - name: {{ .name }}
-    port: {{ .port }}
-  {{- end }}
+  - name: {{ .port.name }}
+    port: {{ .port.number }}
 ---
 apiVersion: v1
 kind: Service
@@ -20,10 +18,8 @@ metadata:
   namespace: {{ $.Release.Namespace }}
 spec:
   ports:
-  {{- range .ports }}
-  - name: {{ .name }}
-    port: {{ .port }}
-  {{- end }}
+  - name: {{ .port.name }}
+    port: {{ .port.number }}
     protocol: TCP
 ---
 apiVersion: traefik.containo.us/v1alpha1
@@ -32,8 +28,10 @@ metadata:
   name: {{ .name }}
   namespace: {{ $.Release.Namespace }}
 spec:
+  {{- range .entryPoints }}
   entryPoints:
-  - websecure
+  - {{ . }}
+  {{- end }}
   routes:
   - match: Host(`{{ .url }}`)
     kind: Rule
@@ -43,7 +41,8 @@ spec:
       namespace: {{ $.Release.Namespace }}
     {{- end }}
     services:
+    # WIP; hardcoded as Service right now
     - kind: Service
-      name: pihole-redirect
-      port: 80
+      name: {{ .name }}
+      port: {{ .port.number }}
 {{- end }}
