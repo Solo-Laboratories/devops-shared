@@ -1,5 +1,5 @@
 name: coder-with-traefik
-version: v2.0.0
+version: v1.1.0
 appVersion: v2.14.2
 description: Coder v2 umbrella chart that houses an IngressRoute for clusters using Traefik
 home: https://github.com/solo-laboratories/devops-helm

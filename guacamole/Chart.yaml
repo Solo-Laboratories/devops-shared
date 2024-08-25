@@ -1,5 +1,5 @@
 name: guacamole-with-traefik
-version: v2.0.0
+version: v1.1.0
 appVersion: v1.5.5
 description: Apache Guacamole Umbrella chart that houses the IngressRoute for Traefik.
 home: https://github.com/solo-laboratories/devops-helm
