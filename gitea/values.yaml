@@ -1,0 +1,20 @@
+# Great reference for values: https://artifacthub.io/packages/helm/gitea/gitea?modal=values
+gitea:
+  config:
+    server:
+      SSH_DOMAIN: "gitea.example.com"
+      DOMAIN: "gitea.example.com"
+      ROOT_URL: "https://gitea.example.com"
+  admin:
+    username: "user1" # Don't use 'admin' here as its a reserved user and chart will fail to install
+    password: "password"
+    email: "user1@example.com"
+# Configured for not 'HA'; review values from link above for HA changes
+redis-cluster:
+  enabled: false
+redis:
+  enabled: true
+postgresql-ha:
+  enabled: false
+postgresql:
+  enabled: true
