@@ -17,7 +17,7 @@ helm repo add argo https://argoproj.github.io/argo-helm
 ```
 3. Install the service using Helm. Either leave out the `--version` parameter OR change the value to match the **CHART** version you require.
 ```bash
-helm upgrade --install argo-cd argo/argo-cd -n argo-cd --create-namespace -f values.yaml --version=7.4.5 --atomic
+helm upgrade --install argo-cd argo/argo-cd -n argo-cd --create-namespace -f values.yaml --version 7.4.5 --atomic
 ```
 
 ## Updating

@@ -26,7 +26,7 @@ helm repo add gitea https://dl.gitea.io/charts
 ```
 3. Install the service using Helm. Either leave out the `--version` parameter OR change the value to match the **CHART** version you require.
 ```bash
-helm upgrade --install gitea gitea/gitea -n gitea --create-namespace -f values.yaml --version=10.4.0 --atomic
+helm upgrade --install gitea gitea/gitea -n gitea --create-namespace -f values.yaml --version 10.4.0 --atomic
 ```
 
 ## Updating

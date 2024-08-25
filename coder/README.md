@@ -32,7 +32,7 @@ helm repo add bitnami https://charts.bitnami.com/bitnami
 ```
 3. Install the database using Helm. Either leave out the `--version` parameter OR change the value to match the **CHART** version you require.
 ```bash
-helm upgrade --install coder-db bitnami/postgresql -n postgres --create-namespace -f db-values.yaml --version=15.5.24 --atomic
+helm upgrade --install coder-db bitnami/postgresql -n postgres --create-namespace -f db-values.yaml --version 15.5.24 --atomic
 ```
 4. Modify the [values.yaml](values.yaml) file to suit your environment. You can store the values file locally or remotely in a private repository. Note that if change the user, password, or database in [db-values.yaml](db-values.yaml), you will need to reflect those changes in this values file.
 5. Add service chart to Helm.
@@ -41,7 +41,7 @@ helm repo add coder https://helm.coder.com/v2
 ```
 6. Install the service using Helm. Either leave out the `--version` parameter OR change the value to match the **CHART** version you require.
 ```bash
-helm upgrade --install coder coder/coder -n coder --create-namespace -f values.yaml --version=2.14.2 --atomic
+helm upgrade --install coder coder/coder -n coder --create-namespace -f values.yaml --version 2.14.2 --atomic
 ```
 
 ## Updating
