@@ -2,12 +2,12 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: cronjobs
+  name: olivetin
   namespace: argo-cd
 spec:
   destination:
     name: ''
-    namespace: cron-jobs
+    namespace: olivetin
     server: 'https://kubernetes.default.svc'
   revisionHistoryLimit: 3
   syncPolicy:

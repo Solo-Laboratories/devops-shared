@@ -3,11 +3,11 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: home-assistant
-  namespace: home-assistant
+  namespace: argo-cd
 spec:
   destination:
     name: ''
-    namespace: gitea
+    namespace: home-assistant
     server: 'https://kubernetes.default.svc'
   revisionHistoryLimit: 3
   syncPolicy:

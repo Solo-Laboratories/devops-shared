@@ -7,7 +7,7 @@ metadata:
 spec:
   destination:
     name: ''
-    namespace: cron-jobs
+    namespace: cronjobs
     server: 'https://kubernetes.default.svc'
   revisionHistoryLimit: 3
   syncPolicy:
