@@ -1,5 +1,5 @@
 name: ingressroutes
-version: v1.0.0
+version: v2.0.0
 description: Creates IngressRoute objects used with Traefik to route to services.
 home: https://github.com/solo-laboratories/devops-helm
 sources:
