@@ -1,5 +1,8 @@
 middlewareNamespace: middleware
 
+# WIP; only follows this entry but will be updated later to handle per route
+#wildcardCert: some-secret-created-w-tls-certs
+
 # Collection of routes
 routes:
 - name: nextcloud-ingress

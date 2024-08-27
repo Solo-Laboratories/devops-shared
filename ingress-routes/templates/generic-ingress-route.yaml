@@ -19,5 +19,9 @@ spec:
       - kind: Service
         name: {{ .service.name }}
         port: {{ .service.port }}
+  {{- if $.Values.wildcardCert }}
+  tls:
+    secretName: {{ $.Values.wildcardCert }}
+  {{- end }}
 ---
 {{- end }}
