@@ -1,0 +1,27 @@
+# Great reference for modifying Application to your needs: https://artifacthub.io/packages/helm/traefik/traefik
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: traefik
+  namespace: argo-cd
+spec:
+  destination:
+    name: ''
+    namespace: traefik
+    server: 'https://kubernetes.default.svc'
+  revisionHistoryLimit: 3
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+  sources:
+  - repoURL: 'https://helm.traefik.io/traefik'
+    targetRevision: 31.0.0 # Change version here
+    chart: traefik
+    helm:
+      valueFiles:
+      - $values/traefik/values.yaml # Change where your values file is in remote repository. $values is at root.
+  - repoURL: 'https://github.com/some-user/private-values-repo' # Change this to point to where your values file is restored.
+    targetRevision: main
+    ref: values  
+  project: default

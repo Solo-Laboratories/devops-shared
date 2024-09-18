@@ -1,0 +1,27 @@
+# Great reference for modifying Application to your needs: https://artifacthub.io/packages/helm/cert-manager/cert-manager
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cert-manager
+  namespace: argo-cd
+spec:
+  destination:
+    name: ''
+    namespace: cert-manager
+    server: 'https://kubernetes.default.svc'
+  revisionHistoryLimit: 3
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+  sources:
+  - repoURL: 'https://charts.jetstack.io'
+    targetRevision: v1.15.3 # Change version here
+    chart: cert-manager
+    helm:
+      valueFiles:
+      - $values/cert-manager/values.yaml # Change where your values file is in remote repository. $values is at root.
+  - repoURL: 'https://github.com/some-user/private-values-repo' # Change this to point to where your values file is restored.
+    targetRevision: main
+    ref: values  
+  project: default

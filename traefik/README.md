@@ -2,6 +2,11 @@
 This chart is designed to function with K3s Traefik and works with HelmChartConfig resources.
 
 ## !!WARNING!!
+This chart is for installing traefik align side k3s! If you want to install as stand alone, please apply the application.yaml file with the standalone_values.yaml file. Note, this does not include the traefik endpoint. You will need to add the ingress route by yourself. 
+
+Additionally, the stand alone - as is - is configured to be used with [cert-manager](../cert-manager/README.md). It is HIGHLY suggested you follow the cert-manager guide for installing as well as applying the cert-manager application. 
+
+## !!WARNING!!
 This chart will not persist unless you follow [these steps](#persistance). This chart also assumes traefik is already installed AND you're using `HelmChartConfig` resources. If you've installed K3s, you should be all good to use this chart as soon as the cluster has been installed.
 
 ## Prep work
