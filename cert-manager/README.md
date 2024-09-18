@@ -1,6 +1,11 @@
 # Cert Manager
 Cert Manager... well manages your certificates! All sorts of certificates! But mainly used to store and manage the certificates for your TLS endpoint.
 
+## Notes:
+* [Cert Manager docs](https://cert-manager.io/docs)
+* [TechnoTim's Guide](https://technotim.live/posts/kube-traefik-cert-manager-le/)
+* **!!WARNING!! USE STAGING BEFORE PRODUCTION FOR CERTS OR YOU RISK BEING BLOCKED FOR 7 days!**
+
 ## Items
 * [values.yaml](values.yaml) file used for installing with Helm w/ default entries.
 * [application.yaml](application.yaml) file used with ArgoCD to automate management of the service.
@@ -44,3 +49,22 @@ Uninstalling the application file directly does not function currently. You have
 ```bash
 helm uninstall cert-manager -n cert-manager
 ```
+
+## Usage
+### Getting a certificate
+Getting a certificate is easy. 
+
+1. You want to [get your cloudflar API token](https://cert-manager.io/docs/configuration/acme/dns01/cloudflare/#api-tokens) and replace it in the [token-secret.yaml](token-secret.yaml) file. Then apply the file.
+```bash
+kubectl apply -f token-secret.yaml
+``` 
+2. Fill out the email and domain in [staging-issuer.yaml](staging-issuer.yaml) file. Then apply the file.
+```bash
+kubectl apply -f staging-issuer.yaml
+```
+3. Change what you need in the [example staing cert](example-com-staging-cert.yaml) file. Then apply the file... and wait!
+```bash
+kubectl apply -f example-com-staging-cert.yaml && watch -d kubectl get challenges -A
+```
+4. Once the challenge passes, you will have your certificate. Assuming you didn't change much from the files above the staging secret would have been `domain-name-staging-tls` and you want to place it at `spec.tls.secretName` in your ingress route. However, if placed in traefik namespace, it seems Traefik automatically picks up the secret and applies the TLS certificate information thus not needing you to add the above to your ingress route manifest.
+5. Finally, go to your endpoint. It will show that it is not protected but staging will do that. Just inspect the certificate in your browser and if you see that it has LetsEncrypt Staging in the details, you know it works. IFF you see staging in the details, then do the same process from step 2 but with production. You want delete the staging certificate you if you like. `kubectl delete certificate -n traefik example-com-staging`.

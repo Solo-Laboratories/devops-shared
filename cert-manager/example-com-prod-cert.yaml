@@ -1,0 +1,14 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: example-com-production
+  namespace: traefik # You want this to be where your service is
+spec:
+  secretName: example-com-production-tls
+  issuerRef:
+    name: letsencrypt-production
+    kind: ClusterIssuer
+  commonName: "*.example.com"
+  dnsNames:
+  - "example.com"
+  - "*.example.com"
