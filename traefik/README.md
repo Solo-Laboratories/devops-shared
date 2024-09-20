@@ -2,57 +2,48 @@
 This chart is designed to function with K3s Traefik and works with HelmChartConfig resources.
 
 ## !!WARNING!!
-This chart is for installing traefik align side k3s! If you want to install as stand alone, please apply the application.yaml file with the standalone_values.yaml file. Note, this does not include the traefik endpoint. You will need to add the ingress route by yourself. 
+This installation is configured to be used with [cert-manager](../cert-manager/README.md). It is HIGHLY suggested you follow the cert-manager guide for installing as well as applying the cert-manager application. 
 
-Additionally, the stand alone - as is - is configured to be used with [cert-manager](../cert-manager/README.md). It is HIGHLY suggested you follow the cert-manager guide for installing as well as applying the cert-manager application. 
+## Items
+* [values.yaml](values.yaml) file used for installing with Helm w/ default entries.
+* [application.yaml](application.yaml) file used with ArgoCD to automate management of the service.
 
-## !!WARNING!!
-This chart will not persist unless you follow [these steps](#persistance). This chart also assumes traefik is already installed AND you're using `HelmChartConfig` resources. If you've installed K3s, you should be all good to use this chart as soon as the cluster has been installed.
-
-## Prep work
-There are multiple things you must do before installing this chart.
-
-* Have a registered domain you want to use.
-* Choose your provider. This chart uses cloudflare. Follow [TechnoTims guide](https://technotim.live/posts/traefik-portainer-ssl/) for setting up your domain with cloudflare and get your API Token. Just follow the guide until Cloudflare is setup.
-* Get your API Token from Cloudflare, storing for later use.
-* Decide upon what your endpoint will be for Traefik dashboard IF you enable it.
-* Have a CSI provisioner; I suggest Longhorn CSI if you're wanting to use distributed local storage (local storage the cluster is running on) or [Democratic CSI](../democratic-csi/README.md)
+## Prerequisites
+* [Helm v3](https://helm.sh/docs/intro/install/)
+* [Kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl)
+* [ArgoCD](../argocd/README.md)
 
 ## Installation
-Follow the steps below to install the charts. For now I assume local install though a remote chart is a feature that will be coming later on.
-
-1. Modify any configuration changes in the [values.yaml file](values.yaml).
-2. Install the chart.
-3. (Optional BUT recommended!) Configure [Persistance](#persistance).
-
-After modifying the [values.yaml](values.yaml) file with personalized changes, do the following command to install the traefik items.
-
-(Step 2)
+### ArgoCD
+1. Make modifications to [application.yaml](application.yaml) file so it points to where you are storing your values.file.
+2. Install the application and wait for the service to appear.
 ```bash
-helm repo add solo-laboratories https://solo-laboratories.github.io/helm-charts && \
-helm upgrade --install traefik-custom solo-laboratories/traefik-custom \
-    --namespace kube-system \
-    --version v1.0.0 \
-    --atomic
+kubectl apply -f application.yaml
 ```
 
-## Persistance
-The above chart will function but parts will not persist past a cluster restart. Follow these steps to make the items persist through cluster restarts.
-
-1. Generate the `HelmChartConfig` based on your [values.yaml](values.yaml) file.
-2. Place the new file on your control node.
-3. Profit!
-
-Those steps seem straight forward. Here those steps are in bash form!
-Step 1:
+### Helm
+1. Modify the [values.yaml](values.yaml) file to suit your environment. You can store this values file locally or remotely in a private repository.
+2. Add service chart to Helm.
 ```bash
-helm template name -n kube-system -s templates/helm-config.yml > traefik-custom.yml
+helm repo add traefik https://helm.traefik.io/traefik
+```
+3. Install the service using Helm. Either leave out the `--version` parameter OR change the value to match the **CHART** version you require.
+```bash
+helm upgrade --install traefik traefik/traefik -n traefik --create-namespace -f values.yaml --version 31.0.0 --atomic
 ```
 
-Step 2:
+## Updating
+### ArgoCD
+Update the application file for the service to use the version you want OR modify the Application in the WebUI by editing the details of the Application and change the chart version to the version you want to upgrade to.
+### Helm
+Replay the installation steps above.
+
+## Uninstalling
+### ArgoCD
+Uninstalling the application file directly does not function currently. You have to navigate to the Application in the ArgoCD and delete the application from there. Select 'Foreground'(preferred) or 'Background' to remove the resources OR 'Non-cascading' if you wish to uninstall the application but leave the services there.
+
+### Helm
+1. Uninstall the chart using Helm.
 ```bash
-scp traefik-custom.yml <service-ip>: && \
-ssh <service-ip> sudo mv traefik-custom.yml /var/rancher/k3s/server/manifests/
+helm uninstall traefik -n traefik
 ```
-Step 3:
-Persistance through cluster reboots!

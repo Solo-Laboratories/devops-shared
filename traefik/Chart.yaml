@@ -1,8 +1,0 @@
-name: traefik-custom
-version: v1.0.0
-description: Traefik Chart to install custom configurations in a cluster that has Traefik pre-installed
-home: https://github.com/solo-laboratories/devops-helm
-maintainers:
-- name: Mark Brown
-  email: markus@sololab.one
-  url: https://github.com/markbrown87

@@ -1,5 +1,5 @@
-# Coder v2
-Coder provides workspaces, using terraform templates, for isolated development in containers from a web interface.
+# Postgres plus Extras
+Postgres is... a database...? It comes with extra files to work with traefik based on the URL so no need for multple ports and all that nonsense.
 
 ## Items
 * [values.yaml](db-values.yaml) file used for installing the database with Helm w/ default entries.

@@ -1,51 +1,40 @@
-# Only setup to work with Cloudflare currently
-provider:
-  selection: cloudflare
-  apiKey: fg224....
-  email: first.last@me.com
-  domain: example.com
-  resolvers: 1.1.1.1:53,1.0.0.1:53
+deployment:
+  kind: DaemonSet # Change to Deployment if you don't want to make certain traefik is on each node.
+  revisionHistoryLimit: 3
+  podAnnotations:
+    prometheus.io/port: "8082"
+    prometheus.io/scrape: "true"
+providers:
+  kubernetesIngress:
+    publishedService:
+      enabled: true
 
-# Configuration for Traefik external routing
-config:
-  # Enable to generate a configmap that Traefik will use
-  #   This configmap is used to route external endpoints outside of the cluster
-  enable: false
+priorityClassName: "system-cluster-critical"
+tolerations:
+- key: "CriticalAddonsOnly"
+  operator: "Exists"
+- key: "node-role.kubernetes.io/control-plane"
+  operator: "Exists"
+  effect: "NoSchedule"
+- key: "node-role.kubernetes.io/master"
+  operator: "Exists"
+  effect: "NoSchedule"
+service:
+  ipFamilyPolicy: "PreferDualStack"
 
-  # Routers reference Services and Middlewares
-  routers:
-  - pihole:
-      entryPoints:
-        - "websecure"
-      rule: "Host(`pihole.example.com`)"
-      middlewares:
-        - pihole-redirect
-      tls: {}
-      service: pihole
-  #routers: []
-  # Services point to endpoints
-  services: 
-  - pihole:
-      loadBalancer:
-        servers:
-          - url: "http://<ip-address>:<port>"
-        passHostHeader: true
-  #services: []
-  
-  # Custom Middlewares
-  middlewares:
-  - pihole-redirect:
-      redirectRegex:
-        regex: "^https?://pihole.example.com/$"
-        replacement: "https://pihole.example.com/admin/"
-  #middlewares: []
-
-# PVC used by Traefik to store the ACME.json file
-persistance:
-  enabled: true
-  size: 128Mi
-
-# Ingress Route to expose Traefik Dashboard
-ingressRoute:
-  enabled: true
-  url: traefik.example.com
+globalArguments:
+- --global.sendanonymoususage=false
+- --global.checknewversion=true
+additionalArguments:
+- --serversTransport.insecureSkipVerify=true
+ports:
+  web:
+    redirectTo:
+      port: websecure
+  websecure:
+    tls:
+      enabled: true
+  # postgrest:
+  #   port: 5432
+  #   expose:
+  #     default: true
