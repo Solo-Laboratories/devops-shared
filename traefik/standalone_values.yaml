@@ -34,3 +34,7 @@ ports:
   websecure:
     tls:
       enabled: true
+  # postgrest:
+  #   port: 5432
+  #   expose:
+  #     default: true

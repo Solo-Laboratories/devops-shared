@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: some-certificate-name
+  namespace: postgres
+spec:
+  secretName: some-certificate-name-tls
+  issuerRef:
+    name: letsencrypt-production
+    kind: ClusterIssuer
+  commonName: "postgres.example.com"
+  dnsNames:
+  - "postgres.example.com"
