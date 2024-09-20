@@ -26,3 +26,4 @@ Follow the read me's in the subdirectories on how to install. Each service will 
 * [Gitea](gitea/README.md)
 * [Excalidraw](excalidraw/README.md)
 * [Cert Manager](cert-manager/README.md)
+* [Postgres](postgres/README.md)
