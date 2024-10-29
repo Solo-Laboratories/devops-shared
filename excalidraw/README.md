@@ -15,3 +15,4 @@ Unfortunately, Excalidraw uses 'latest' for the docker container and doesn't use
 ```bash
 helm uninstall excalidraw -n excalidraw && \
 helm upgrade --install excalidraw excalidraw/excalidraw -n excalidraw -f values.yaml --create-namespace --atomic
+```

@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: app-of-apps
+  namespace: argo-cd
+spec:
+  destination:
+    namespace: '*'
+    server: 'https://kubernetes.default.svc'
+  revisionHistoryLimit: 3
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+  source:
+    path: kubernetes/active/ # Change this to match where you have your applications stored. I have mine at k8s/active/{app}
+    directory:
+      recurse: true
+      include: '{*pplication.yaml,*pplication.yml}' # Change this to match what you name your application files. Glob search so make sure it has a wildcard; direct names didn't work for me
+    repoURL: 'https://github.com/some-user/private-values-repo' # Change this to point to where your applications file(s)/folder(s) are stored.
+    targetRevision: main # Change this to match your branch name; HEAD works as well
+  project: default
